@@ -1,0 +1,6 @@
+{
+  "name": "Speaking App",
+  "description": "",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": []
+}
