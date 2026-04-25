@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { PageTransition } from "../components/PageTransition";
+import { motion } from "motion/react";
 
 export default function Welcome() {
   return (
@@ -64,18 +65,33 @@ export default function Welcome() {
 
           {/* Right Side: Signature Interaction Pulse Visual */}
           <div className="md:col-span-5 relative flex justify-center items-center py-12">
-            <div className="relative z-10 w-64 h-64 md:w-80 md:h-80 bg-gradient-to-tr from-secondary to-secondary-container flex items-center justify-center shadow-2xl shadow-secondary/30 rounded-[40%_60%_70%_30%/40%_50%_60%_50%]">
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative z-10 w-64 h-64 md:w-80 md:h-80 bg-gradient-to-tr from-secondary to-secondary-container flex items-center justify-center shadow-2xl shadow-secondary/30 rounded-[40%_60%_70%_30%/40%_50%_60%_50%]"
+            >
               <div className="w-20 h-20 bg-surface/20 backdrop-blur-md rounded-full flex items-center justify-center animate-pulse">
                 <span className="material-symbols-outlined text-on-secondary text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>mic</span>
               </div>
               
               {/* Floating Editorial Elements */}
-              <div className="absolute -top-4 -right-4 bg-surface-container-lowest/80 backdrop-blur-md p-4 rounded-2xl shadow-lg max-w-[180px]">
+              <motion.div 
+                initial={{ y: 20, opacity: 0, scale: 0.9 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+                className="absolute -top-4 -right-4 bg-surface-container-lowest/80 backdrop-blur-md p-4 rounded-2xl shadow-lg max-w-[180px]"
+              >
                 <p className="text-[12px] font-bold text-primary uppercase tracking-widest mb-1">Feedback</p>
                 <p className="text-sm font-medium text-on-surface leading-snug">"Excellent pronunciation of 'Resonance'!"</p>
-              </div>
+              </motion.div>
               
-              <div className="absolute -bottom-8 -left-4 bg-white/40 backdrop-blur-md p-4 rounded-3xl shadow-xl flex items-center gap-3">
+              <motion.div 
+                initial={{ y: 20, opacity: 0, scale: 0.9 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+                className="absolute -bottom-8 -left-4 bg-white/40 backdrop-blur-md p-4 rounded-3xl shadow-xl flex items-center gap-3"
+              >
                 <div className="w-10 h-10 bg-tertiary rounded-full flex items-center justify-center">
                   <span className="material-symbols-outlined text-white text-xl">auto_awesome</span>
                 </div>
@@ -83,8 +99,8 @@ export default function Welcome() {
                   <p className="text-xs text-on-surface-variant font-bold">STREAK</p>
                   <p className="text-lg font-black text-on-surface">14 Days</p>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
             
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border-2 border-outline-variant/10 rounded-full animate-[spin_20s_linear_infinite] pointer-events-none"></div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] border border-outline-variant/15 rounded-full pointer-events-none"></div>

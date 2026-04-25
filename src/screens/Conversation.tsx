@@ -31,6 +31,26 @@ export default function Conversation() {
   const [aiMessage, setAiMessage] = useState(initialAiMessage);
   const [userTranscript, setUserTranscript] = useState("...")
   const [feedback, setFeedback] = useState<any>(null);
+  const [savedWords, setSavedWords] = useState<string[]>([]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('verba_vocab_bank');
+      if (stored) setSavedWords(JSON.parse(stored));
+    } catch(e) {}
+  }, []);
+
+  const handleSaveWord = (word: string) => {
+    if (!savedWords.includes(word)) {
+      const newWords = [...savedWords, word];
+      setSavedWords(newWords);
+      localStorage.setItem('verba_vocab_bank', JSON.stringify(newWords));
+    } else {
+      const newWords = savedWords.filter(w => w !== word);
+      setSavedWords(newWords);
+      localStorage.setItem('verba_vocab_bank', JSON.stringify(newWords));
+    }
+  };
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -438,7 +458,16 @@ export default function Conversation() {
             {/* Grammar Feedback Card */}
             {feedback?.grammarTip && feedback.grammarTip.wrong && (
               <div className="bg-tertiary-container rounded-2xl p-5 border border-tertiary-container relative overflow-hidden text-left mb-6 max-w-[480px]">
-                <span className="text-[11px] font-bold text-tertiary uppercase mb-2 block tracking-wider">Grammar Feedback</span>
+                <div className="flex justify-between items-start mb-2">
+                  <span className="text-[11px] font-bold text-tertiary uppercase tracking-wider block">Grammar Feedback</span>
+                  <button 
+                    onClick={() => handleSaveWord(feedback.grammarTip.right)}
+                    className="text-tertiary hover:text-tertiary-dim transition-colors"
+                    title={savedWords.includes(feedback.grammarTip.right) ? "Remove from Vocabulary Bank" : "Save to Vocabulary Bank"}
+                  >
+                    <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: savedWords.includes(feedback.grammarTip.right) ? "'FILL' 1" : "'FILL' 0" }}>bookmark</span>
+                  </button>
+                </div>
                 <p className="text-on-surface-variant text-[15px] mb-1 line-through">"{feedback.grammarTip.wrong}"</p>
                 <p className="text-tertiary text-[18px] font-semibold">"{feedback.grammarTip.right}"</p>
                 <div className="text-tertiary-dim text-[12px] mt-2 font-medium">{feedback.grammarTip.explanation}</div>
@@ -447,7 +476,16 @@ export default function Conversation() {
             
             {!feedback && (
               <div className="bg-tertiary-container rounded-2xl p-5 border border-tertiary-container relative overflow-hidden text-left mb-6 max-w-[480px]">
-                <span className="text-[11px] font-bold text-tertiary uppercase mb-2 block tracking-wider">Grammar Feedback</span>
+                <div className="flex justify-between items-start mb-2">
+                  <span className="text-[11px] font-bold text-tertiary uppercase tracking-wider block">Grammar Feedback</span>
+                  <button 
+                    onClick={() => handleSaveWord("was waiting")}
+                    className="text-tertiary hover:text-tertiary-dim transition-colors"
+                    title={savedWords.includes("was waiting") ? "Remove from Vocabulary Bank" : "Save to Vocabulary Bank"}
+                  >
+                    <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: savedWords.includes("was waiting") ? "'FILL' 1" : "'FILL' 0" }}>bookmark</span>
+                  </button>
+                </div>
                 <p className="text-on-surface-variant text-[15px] mb-1 line-through">"I was wait for the train."</p>
                 <p className="text-tertiary text-[18px] font-semibold">"I was waiting for the train."</p>
                 <div className="text-tertiary-dim text-[12px] mt-2 font-medium">Use the past continuous ("was waiting") to describe an action that was in progress in the past.</div>
@@ -457,7 +495,9 @@ export default function Conversation() {
             {/* Pronunciation Feedback Card */}
             {feedback?.feedback && (
               <div className="bg-secondary-container rounded-2xl p-5 border border-secondary-container relative overflow-hidden text-left mb-6 max-w-[480px]">
-                <span className="text-[11px] font-bold text-secondary-dim uppercase mb-2 block tracking-wider">Speech Feedback</span>
+                <div className="flex justify-between items-start mb-2">
+                  <span className="text-[11px] font-bold text-secondary-dim uppercase tracking-wider block">Speech Feedback</span>
+                </div>
                 <div className="space-y-3 mt-3">
                   <div>
                     <div className="flex justify-between items-center text-xs font-bold text-on-surface-variant mb-1">
@@ -478,7 +518,16 @@ export default function Conversation() {
 
             {!feedback && (
               <div className="bg-secondary-container rounded-2xl p-5 border border-secondary-container relative overflow-hidden text-left mb-6 max-w-[480px]">
-                <span className="text-[11px] font-bold text-secondary-dim uppercase mb-2 block tracking-wider">Pronunciation Feedback</span>
+                <div className="flex justify-between items-start mb-2">
+                  <span className="text-[11px] font-bold text-secondary-dim uppercase tracking-wider block">Pronunciation Feedback</span>
+                  <button 
+                    onClick={() => handleSaveWord("wait")}
+                    className="text-secondary-dim hover:text-secondary transition-colors"
+                    title={savedWords.includes("wait") ? "Remove from Vocabulary Bank" : "Save to Vocabulary Bank"}
+                  >
+                    <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: savedWords.includes("wait") ? "'FILL' 1" : "'FILL' 0" }}>bookmark</span>
+                  </button>
+                </div>
                 <div className="space-y-3 mt-3">
                   <div>
                     <div className="flex justify-between items-center text-xs font-bold text-on-surface-variant mb-1">

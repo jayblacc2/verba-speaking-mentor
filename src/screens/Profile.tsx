@@ -96,6 +96,21 @@ export default function Profile() {
           </div>
         </div>
 
+        {/* Level and XP Section */}
+        <div className="bg-surface-container-lowest rounded-3xl p-6 ambient-shadow mb-6 border border-outline-variant/20 flex flex-col items-center">
+          <div className="flex items-center justify-between w-full mb-3">
+            <span className="font-headline font-bold text-lg text-on-surface">Level 4: Conversationalist</span>
+            <span className="font-label font-bold text-primary text-sm">1,240 XP</span>
+          </div>
+          <div className="w-full h-3 bg-surface-container-high rounded-full overflow-hidden mb-2">
+            <div className="h-full bg-primary rounded-full transition-all duration-1000" style={{ width: '65%' }}></div>
+          </div>
+          <div className="w-full flex justify-between text-xs font-label text-on-surface-variant font-medium">
+            <span>Level 4</span>
+            <span>260 XP to Level 5</span>
+          </div>
+        </div>
+
         {/* Goal Section */}
         <div className="bg-surface-container-lowest rounded-3xl p-6 ambient-shadow mb-6 border border-outline-variant/20">
            <h3 className="text-sm font-label font-bold text-outline uppercase tracking-wider mb-3">Learning Goal</h3>
@@ -114,7 +129,9 @@ export default function Profile() {
         </div>
 
         {/* Stats Summary */}
-        <h3 className="text-sm font-label font-bold text-outline-variant uppercase tracking-wider mb-4 px-2 mt-8">Recent Activity</h3>
+        <div className="flex items-center justify-between mt-8 mb-4 px-2">
+          <h3 className="text-sm font-label font-bold text-outline-variant uppercase tracking-wider">Recent Activity</h3>
+        </div>
         <div className="grid grid-cols-2 gap-4 mb-6">
            <div className="bg-surface-container-lowest rounded-[1.5rem] p-5 ambient-shadow border border-outline-variant/20 flex flex-col items-center justify-center text-center">
              <span className="material-symbols-outlined text-secondary mb-2 text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>chat</span>
@@ -128,8 +145,51 @@ export default function Profile() {
            </div>
         </div>
 
+        {/* Achievements Section */}
+        <div className="flex items-center justify-between mt-8 mb-4 px-2">
+          <h3 className="text-sm font-label font-bold text-outline-variant uppercase tracking-wider">Achievements</h3>
+          <button className="text-primary text-xs font-label font-bold tracking-wide">VIEW ALL</button>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+          {/* Unlocked Badge */}
+          <div className="bg-surface-container-lowest rounded-[1.5rem] p-4 ambient-shadow border border-outline-variant/20 flex flex-col items-center justify-center text-center group transition-transform active:scale-95">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-3">
+              <span className="material-symbols-outlined text-primary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>social_leaderboard</span>
+            </div>
+            <span className="text-sm font-headline font-bold text-on-surface mb-1">Starter</span>
+            <span className="text-[10px] font-label text-on-surface-variant leading-tight">10 Conversations</span>
+          </div>
+
+          {/* Unlocked Badge */}
+          <div className="bg-surface-container-lowest rounded-[1.5rem] p-4 ambient-shadow border border-outline-variant/20 flex flex-col items-center justify-center text-center group transition-transform active:scale-95">
+            <div className="w-16 h-16 rounded-full bg-tertiary/10 flex items-center justify-center mb-3">
+              <span className="material-symbols-outlined text-tertiary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+            </div>
+            <span className="text-sm font-headline font-bold text-on-surface mb-1">Grammar Guru</span>
+            <span className="text-[10px] font-label text-on-surface-variant leading-tight">90% Grammar Score</span>
+          </div>
+
+          {/* Locked Badge */}
+          <div className="bg-surface-container-lowest rounded-[1.5rem] p-4 border border-outline-variant/10 flex flex-col items-center justify-center text-center opacity-70 grayscale">
+            <div className="w-16 h-16 rounded-full bg-outline-variant/20 flex items-center justify-center mb-3">
+              <span className="material-symbols-outlined text-on-surface-variant text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>public</span>
+            </div>
+            <span className="text-sm font-headline font-bold text-on-surface-variant mb-1">Polyglot</span>
+            <span className="text-[10px] font-label text-on-surface-variant leading-tight">Learn 1000 Words</span>
+          </div>
+        </div>
+
         {/* Settings Links */}
          <div className="bg-surface-container-lowest rounded-[1.5rem] overflow-hidden ambient-shadow border border-outline-variant/20 mt-8">
+            <Link to="/flashcards" className="w-full px-6 py-4 flex flex-row items-center justify-between hover:bg-surface-container-high transition-colors text-left border-b border-outline-variant/10">
+              <div className="flex items-center gap-4">
+                <span className="w-10 h-10 rounded-full bg-secondary-container/50 text-secondary-dim flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[20px]">style</span>
+                </span>
+                <span className="font-body font-medium text-on-surface">Vocabulary Bank & Flashcards</span>
+              </div>
+              <span className="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+            </Link>
             <Link to="/history" className="w-full px-6 py-4 flex flex-row items-center justify-between hover:bg-surface-container-high transition-colors text-left border-b border-outline-variant/10">
               <div className="flex items-center gap-4">
                 <span className="w-10 h-10 rounded-full bg-tertiary-container/50 text-tertiary flex items-center justify-center">
