@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { cn } from "../lib/utils";
+import { PageTransition } from "../components/PageTransition";
 
 interface Message {
   role: 'user' | 'model';
@@ -37,7 +38,7 @@ export default function History() {
 
   if (selectedEntry) {
     return (
-      <div className="bg-surface text-on-surface font-body min-h-screen">
+      <PageTransition className="bg-surface text-on-surface font-body min-h-screen">
         <header className="px-6 pt-12 pb-6 sticky top-0 bg-surface/80 backdrop-blur-md z-40 border-b border-outline-variant/10 shadow-sm flex items-center gap-4">
           <button 
             onClick={() => setSelectedEntry(null)} 
@@ -73,12 +74,12 @@ export default function History() {
              </div>
           ))}
         </main>
-      </div>
+      </PageTransition>
     );
   }
 
   return (
-    <div className="bg-surface text-on-surface font-body min-h-screen">
+    <PageTransition className="bg-surface text-on-surface font-body min-h-screen">
       <header className="px-6 pt-12 pb-6 sticky top-0 bg-surface/80 backdrop-blur-md z-40 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button onClick={() => navigate('/profile')} className="text-primary hover:bg-primary/10 transition-colors p-2 rounded-full active:scale-95 flex items-center justify-center">
@@ -135,6 +136,6 @@ export default function History() {
           </div>
         )}
       </main>
-    </div>
+    </PageTransition>
   );
 }

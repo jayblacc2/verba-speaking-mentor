@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { cn } from "../lib/utils";
 import { SCENARIOS } from "../data/scenarios";
+import { PageTransition } from "../components/PageTransition";
 
 const FILTERS = ['All Topics', 'Travel', 'Work', 'Daily Life', 'Dining'];
 
@@ -18,7 +19,7 @@ export default function Explore() {
   });
 
   return (
-    <div className="bg-surface text-on-surface min-h-screen">
+    <PageTransition className="bg-surface text-on-surface min-h-screen">
       {/* TopAppBar Mobile */}
       <header className="md:hidden fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 py-4 bg-surface/80 backdrop-blur-md shadow-[0_4px_12px_rgba(53,47,69,0.05)]">
         <button className="text-primary hover:bg-primary/10 p-2 rounded-full transition-colors active:scale-95">
@@ -188,6 +189,6 @@ export default function Explore() {
         <span>Custom Topic</span>
       </button>
 
-    </div>
+    </PageTransition>
   );
 }

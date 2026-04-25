@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import React from "react";
+import { PageTransition } from "../components/PageTransition";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className="bg-background text-on-background font-body min-h-screen flex flex-col">
+    <PageTransition className="bg-background text-on-background font-body min-h-screen flex flex-col">
       <header className="bg-surface/80 backdrop-blur-md w-full sticky top-0 z-50">
         <div className="flex justify-between items-center w-full px-6 py-4 max-w-5xl mx-auto">
           <Link to="/" className="flex items-center gap-3">
@@ -167,6 +168,6 @@ export default function SignIn() {
           </div>
         </div>
       </div>
-    </div>
+    </PageTransition>
   );
 }

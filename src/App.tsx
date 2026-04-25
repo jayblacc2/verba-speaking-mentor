@@ -1,5 +1,6 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { MobileLayout } from "./screens/components/Layout";
+import { AnimatePresence } from "motion/react";
 
 // Screens
 import Welcome from "./screens/Welcome";
@@ -15,10 +16,13 @@ import Profile from "./screens/Profile";
 
 import History from "./screens/History";
 
-export default function App() {
+function AnimatedRoutes() {
+  const location = useLocation();
+  
   return (
-    <BrowserRouter>
-      <Routes>
+    <AnimatePresence mode="wait">
+      {/* @ts-ignore: React Router type definition for Routes is missing standard React key prop */}
+      <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Welcome />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/onboarding" element={<Onboarding />} />
@@ -35,6 +39,14 @@ export default function App() {
           <Route path="/history" element={<History />} />
         </Route>
       </Routes>
+    </AnimatePresence>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AnimatedRoutes />
     </BrowserRouter>
   );
 }

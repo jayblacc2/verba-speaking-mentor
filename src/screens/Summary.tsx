@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { PageTransition } from "../components/PageTransition";
 
 export default function Summary() {
   return (
-    <div className="bg-surface text-on-surface font-body min-h-screen pb-24 md:pb-0 flex flex-col items-center">
+    <PageTransition className="bg-surface text-on-surface font-body min-h-screen pb-24 md:pb-0 flex flex-col items-center">
       {/* TopAppBar */}
       <header className="bg-surface/80 backdrop-blur-md text-primary font-headline text-2xl font-semibold tracking-tight w-full top-0 sticky flex justify-between items-center px-6 py-4 z-40 border-b border-outline-variant/10">
         <div className="flex items-center gap-4">
@@ -144,6 +145,6 @@ export default function Summary() {
           </div>
         </div>
       </main>
-    </div>
+    </PageTransition>
   );
 }

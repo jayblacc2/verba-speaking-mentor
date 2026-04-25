@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { cn } from "../lib/utils";
 import { analyzeSpeech, generateAIResponse, generateSpeech } from "../services/ai";
 import { SCENARIOS } from "../data/scenarios";
+import { PageTransition } from "../components/PageTransition";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function Conversation() {
   const navigate = useNavigate();
@@ -50,9 +52,10 @@ export default function Conversation() {
     try {
       const result = await generateSpeech(text);
       if (result && result.data) {
-        const mimeType = result.mimeType || 'audio/pcm;rate=24000';
+        let mimeType = result.mimeType || 'audio/pcm;rate=24000';
         
-        if (mimeType.includes('audio/pcm') || mimeType === 'audio/pcm;rate=24000') {
+        // Force PCM parsing for TTS preview
+        if (mimeType.includes('pcm') || !mimeType) {
           // Play raw PCM audio using Web Audio API
           const binaryString = atob(result.data);
           const bytes = new Uint8Array(binaryString.length);
@@ -62,10 +65,17 @@ export default function Conversation() {
           const int16Array = new Int16Array(bytes.buffer);
           
           let rate = 24000;
-          const rateMatch = mimeType.match(/rate=(\d+)/);
+          const rateMatch = mimeType?.match(/rate=(\d+)/);
           if (rateMatch) rate = parseInt(rateMatch[1], 10);
           
-          const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+          if (!(window as any).sharedAudioCtx) {
+            (window as any).sharedAudioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+          }
+          const audioCtx = (window as any).sharedAudioCtx;
+          if (audioCtx.state === 'suspended') {
+            await audioCtx.resume();
+          }
+
           const audioBuffer = audioCtx.createBuffer(1, int16Array.length, rate);
           const channelData = audioBuffer.getChannelData(0);
           for (let i = 0; i < int16Array.length; i++) {
@@ -111,11 +121,18 @@ export default function Conversation() {
   const handleSpeak = () => {
     if (isPlaying) {
       if ('speechSynthesis' in window) speechSynthesis.cancel();
-      // For Audio objects, we can't easily cancel without keeping a ref to it.
-      // But we can reset state.
       setIsPlaying(false);
       return;
     }
+
+    if (!(window as any).sharedAudioCtx) {
+      (window as any).sharedAudioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+    const audioCtx = (window as any).sharedAudioCtx;
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+
     playAIResponse(aiMessage);
   };
 
@@ -125,6 +142,14 @@ export default function Conversation() {
       clearTimeout(processingTimeoutRef.current);
     }
     
+    if (!(window as any).sharedAudioCtx) {
+      (window as any).sharedAudioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+    const audioCtx = (window as any).sharedAudioCtx;
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+
     // Stop any current playing audio
     if (isPlaying && 'speechSynthesis' in window) speechSynthesis.cancel();
     setIsPlaying(false);
@@ -249,7 +274,7 @@ export default function Conversation() {
 
   if (!selectedScenario) {
     return (
-      <div className="bg-surface text-on-surface font-body min-h-screen flex flex-col items-center justify-center p-6 text-center z-50">
+      <PageTransition className="bg-surface text-on-surface font-body min-h-screen flex flex-col items-center justify-center p-6 text-center z-50">
         <h2 className="text-3xl font-headline font-bold mb-4">Choose a Topic</h2>
         <p className="text-on-surface-variant font-body mb-8 max-w-md">
           Select a topic to focus on for this conversation, or return to Explore to see all scenarios.
@@ -282,12 +307,12 @@ export default function Conversation() {
         >
           See All Scenarios
         </button>
-      </div>
+      </PageTransition>
     );
   }
 
   return (
-    <div className="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+    <PageTransition className="bg-surface text-on-surface font-body min-h-screen flex flex-col">
       <header className="w-full sticky top-0 bg-surface/90 backdrop-blur-md flex justify-between items-center px-6 py-4 z-40 border-b border-outline-variant/10 shadow-sm">
         <div className="flex items-center gap-4">
           <button onClick={() => handleExitRequest('/explore')} className="text-primary hover:bg-primary/10 transition-colors p-2 rounded-full active:scale-95 flex items-center justify-center">
@@ -533,8 +558,9 @@ export default function Conversation() {
                 onPointerDown={handlePointerDown}
                 onPointerUp={handlePointerUp}
                 onPointerCancel={handlePointerUp}
+                onContextMenu={(e) => e.preventDefault()}
                 className={cn(
-                  "relative z-10 w-20 h-20 rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all duration-300 group border-none text-white",
+                  "relative z-10 w-20 h-20 rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all duration-300 group border-none text-white select-none touch-none",
                   isRecording ? "bg-error scale-95" : isProcessing ? "bg-secondary scale-100 animate-pulse" : "bg-primary hover:scale-105 active:scale-95"
                 )}
               >
@@ -554,34 +580,49 @@ export default function Conversation() {
       </main>
 
       {/* Exit Confirmation Dialog */}
-      {showExitConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
-          <div className="bg-surface rounded-2xl p-6 w-full max-w-sm shadow-xl flex flex-col gap-4 animate-in fade-in zoom-in duration-200">
-            <div className="flex items-center gap-3 text-error">
-              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>warning</span>
-              <h3 className="font-headline text-lg font-bold">Are you sure?</h3>
-            </div>
-            <p className="text-on-surface-variant text-sm">
-              Are you sure you want to {exitTarget === '/summary' ? 'end this session' : 'leave this conversation'}? 
-              {exitTarget === '/explore' && " Your progress will not be saved."}
-            </p>
-            <div className="flex gap-3 mt-2">
-              <button 
-                onClick={() => setShowExitConfirm(false)}
-                className="flex-1 py-2.5 rounded-full font-label font-medium bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface"
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={handleExitConfirmed}
-                className="flex-1 py-2.5 rounded-full font-label font-medium bg-error text-on-error hover:bg-error/90 transition-colors"
-              >
-                {exitTarget === '/summary' ? 'End Session' : 'Leave'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      <AnimatePresence>
+        {showExitConfirm && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4"
+          >
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="bg-surface rounded-3xl p-6 w-full max-w-sm shadow-xl flex flex-col gap-4 border border-outline-variant/20"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center text-error shrink-0">
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>warning</span>
+                </div>
+                <h3 className="font-headline text-[22px] font-bold text-on-surface">Are you sure?</h3>
+              </div>
+              <p className="text-on-surface-variant font-body text-base">
+                Are you sure you want to {exitTarget === '/summary' ? 'end this session' : 'leave this conversation'}? 
+                {exitTarget === '/explore' && " Your current progress will not be saved."}
+              </p>
+              <div className="flex gap-3 mt-4">
+                <button 
+                  onClick={() => setShowExitConfirm(false)}
+                  className="flex-1 py-3 rounded-full font-label font-bold tracking-wide bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface hover:text-on-surface border border-outline-variant/10 active:scale-95"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleExitConfirmed}
+                  className="flex-1 py-3 rounded-full font-label font-bold tracking-wide bg-error text-on-error hover:bg-error/90 transition-colors shadow-sm shadow-error/20 active:scale-95"
+                >
+                  {exitTarget === '/summary' ? 'End Session' : 'Leave'}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </PageTransition>
   );
 }

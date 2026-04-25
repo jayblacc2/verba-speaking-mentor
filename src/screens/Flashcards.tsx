@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { PageTransition } from "../components/PageTransition";
 
 export default function Flashcards() {
   return (
-    <div className="bg-surface text-on-surface antialiased flex flex-col min-h-screen">
+    <PageTransition className="bg-surface text-on-surface antialiased flex flex-col min-h-screen">
       {/* TopAppBar */}
       <header className="bg-surface/90 backdrop-blur-md w-full top-0 sticky flex justify-between items-center px-6 py-4 z-50 border-b border-outline-variant/10 shadow-sm">
         <Link to="/review" className="text-primary hover:bg-primary/10 transition-colors p-2 rounded-full active:scale-95 duration-200 flex items-center justify-center">
@@ -84,6 +85,6 @@ export default function Flashcards() {
           </div>
         </div>
       </main>
-    </div>
+    </PageTransition>
   );
 }

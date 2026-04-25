@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { PageTransition } from "../components/PageTransition";
 
 export default function Welcome() {
   return (
-    <div className="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col overflow-x-hidden">
+    <PageTransition className="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col overflow-x-hidden">
       {/* TopAppBar Fragment */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-md">
         <div className="flex justify-between items-center w-full px-6 py-4 max-w-5xl mx-auto">
@@ -101,6 +102,6 @@ export default function Welcome() {
           </div>
         </div>
       </footer>
-    </div>
+    </PageTransition>
   );
 }

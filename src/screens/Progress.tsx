@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { PageTransition } from "../components/PageTransition";
 
 export default function Progress() {
   return (
-    <div className="bg-surface text-on-surface min-h-screen flex flex-col pb-24 md:pb-0 font-body">
+    <PageTransition className="bg-surface text-on-surface min-h-screen flex flex-col pb-24 md:pb-0 font-body">
       {/* TopAppBar */}
       <header className="bg-surface/90 backdrop-blur-md w-full top-0 sticky z-40 border-b border-outline-variant/10 shadow-sm">
         <div className="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto w-full">
@@ -154,6 +155,6 @@ export default function Progress() {
           </section>
         </div>
       </main>
-    </div>
+    </PageTransition>
   );
 }

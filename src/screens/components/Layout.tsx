@@ -62,17 +62,17 @@ export function MobileLayout() {
               key={item.name}
               to={item.path}
               className={cn(
-                "flex flex-col items-center justify-center px-4 py-2 transition-all duration-300 ease-in-out active:scale-95",
-                isActive ? "bg-primary text-on-primary rounded-full shadow-[0_4px_12px_rgba(44,100,133,0.3)] transform -translate-y-1" : "text-on-surface-variant hover:text-primary opacity-70 hover:opacity-100"
+                "relative flex flex-col items-center justify-center px-4 py-1.5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-95",
+                isActive ? "bg-primary text-on-primary rounded-full shadow-[0_4px_12px_rgba(44,100,133,0.3)] transform -translate-y-[2px]" : "text-on-surface-variant hover:text-primary opacity-60 hover:opacity-100"
               )}
             >
               <span 
-                className={cn("material-symbols-outlined mb-0.5 text-[20px] sm:text-[22px]", isActive && "fill-current")}
+                className={cn("material-symbols-outlined mb-0.5 text-[18px] sm:text-[20px] transition-all duration-500", isActive && "fill-current")}
                 style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
               >
                 {item.icon}
               </span>
-              <span className="font-label text-[10px] sm:text-xs font-semibold">{item.name}</span>
+              <span className={cn("font-label text-[10px] font-semibold transition-all duration-500", isActive ? "opacity-100" : "opacity-90")}>{item.name}</span>
             </Link>
           );
         })}

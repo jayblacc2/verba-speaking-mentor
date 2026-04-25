@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { cn } from "../lib/utils";
+import { PageTransition } from "../components/PageTransition";
 
 export default function Onboarding() {
   const [goal, setGoal] = useState<string>("travel");
@@ -14,7 +15,7 @@ export default function Onboarding() {
   ];
 
   return (
-    <div className="bg-surface text-on-surface font-body min-h-screen flex flex-col antialiased relative">
+    <PageTransition className="bg-surface text-on-surface font-body min-h-screen flex flex-col antialiased relative">
       <header className="w-full max-w-3xl mx-auto px-6 py-8 flex items-center justify-between z-10">
         <Link to="/signin" className="w-12 h-12 rounded-full flex items-center justify-center text-primary bg-surface-container hover:bg-surface-container-high transition-colors">
           <span className="material-symbols-outlined text-2xl">arrow_back</span>
@@ -87,6 +88,6 @@ export default function Onboarding() {
           </button>
         </div>
       </div>
-    </div>
+    </PageTransition>
   );
 }

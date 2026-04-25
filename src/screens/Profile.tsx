@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "../lib/utils";
+import { PageTransition } from "../components/PageTransition";
 
 export default function Profile() {
   const [name, setName] = useState("Alex Johnson");
@@ -18,7 +19,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="bg-surface text-on-surface font-body min-h-screen">
+    <PageTransition className="bg-surface text-on-surface font-body min-h-screen">
       {/* Header */}
       <header className="px-6 pt-12 pb-6 sticky top-0 bg-surface/80 backdrop-blur-md z-40 flex items-center justify-between">
         <h1 className="text-3xl font-headline font-bold">Profile</h1>
@@ -167,6 +168,6 @@ export default function Profile() {
          </div>
 
       </main>
-    </div>
+    </PageTransition>
   );
 }

@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { PageTransition } from "../components/PageTransition";
 
 export default function Review() {
   return (
-    <div className="bg-surface text-on-surface min-h-screen flex flex-col antialiased">
+    <PageTransition className="bg-surface text-on-surface min-h-screen flex flex-col antialiased">
       <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-24 md:mb-12">
         {/* Header Section with Asymmetry */}
         <div className="mb-12 md:w-3/4">
@@ -117,6 +118,6 @@ export default function Review() {
 
         </div>
       </main>
-    </div>
+    </PageTransition>
   );
 }
