@@ -384,20 +384,22 @@ export default function Conversation() {
               "{aiMessage}"
             </p>
             
-            <div className="flex gap-3">
+            <div className="flex gap-3 justify-center">
               <button 
                 onClick={handleSpeak}
                 className={cn(
-                  "bg-surface-container-high rounded-full w-12 h-12 flex items-center justify-center transition-all",
+                  "bg-surface-container-high rounded-full px-5 h-12 flex items-center justify-center gap-2 transition-all font-label font-medium text-sm",
                   isPlaying ? "text-primary bg-primary-container/40 scale-95" : "text-on-surface-variant hover:text-primary hover:bg-primary-container/40"
                 )}
               >
-                <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0", fontSize: "22px" }}>
-                  {isPlaying ? 'stop_circle' : 'volume_up'}
+                <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0", fontSize: "20px" }}>
+                  {isPlaying ? 'stop_circle' : 'replay'}
                 </span>
+                {isPlaying ? 'Stop' : 'Replay Audio'}
               </button>
-              <button className="bg-surface-container-high text-on-surface-variant hover:text-primary hover:bg-primary-container/40 rounded-full w-12 h-12 flex items-center justify-center transition-all">
-                <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0", fontSize: "22px" }}>translate</span>
+              <button className="bg-surface-container-high rounded-full px-5 h-12 text-on-surface-variant hover:text-primary hover:bg-primary-container/40 flex items-center justify-center gap-2 transition-all font-label font-medium text-sm">
+                <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0", fontSize: "20px" }}>translate</span>
+                Translate
               </button>
               <button onClick={() => handleExitRequest('/summary')} className="bg-outline-variant/30 text-on-surface-variant font-label font-medium px-6 py-2 rounded-full hover:bg-primary/10 hover:text-primary transition-colors text-sm">
                 End Session
