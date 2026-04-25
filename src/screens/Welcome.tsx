@@ -34,11 +34,11 @@ export default function Welcome() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto z-10">
-              <Link to="/signin" className="px-10 py-5 bg-primary text-on-primary rounded-full font-headline font-semibold text-lg shadow-xl shadow-primary/20 hover:scale-105 transition-transform duration-300 flex items-center justify-center gap-3">
+              <Link to="/signin" className="px-8 py-4 bg-primary text-on-primary rounded-full font-headline font-semibold text-base shadow-xl shadow-primary/20 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/30 active:scale-95 transition-all duration-300 ease-out flex items-center justify-center gap-2">
                 Get Started
-                <span className="material-symbols-outlined">arrow_forward</span>
+                <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
               </Link>
-              <Link to="/explore" className="px-10 py-5 bg-secondary-container text-on-secondary-container rounded-full font-headline font-semibold text-lg hover:bg-secondary-container/80 transition-all flex items-center justify-center">
+              <Link to="/explore" className="px-8 py-4 bg-secondary-container/50 text-on-secondary-container border border-secondary-container/80 rounded-full font-headline font-semibold text-base hover:bg-secondary-container hover:border-secondary/50 hover:-translate-y-1 hover:shadow-lg hover:shadow-secondary/20 active:scale-95 transition-all duration-300 ease-out flex items-center justify-center">
                 Explore Method
               </Link>
             </div>
