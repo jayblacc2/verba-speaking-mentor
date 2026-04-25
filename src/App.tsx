@@ -1,24 +1,25 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { MobileLayout } from "./screens/components/Layout";
 import { AnimatePresence } from "motion/react";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { ToastContainer } from "./components/Toast";
+import { MobileLayout } from "./screens/components/Layout";
 
 // Screens
-import Welcome from "./screens/Welcome";
-import SignIn from "./screens/SignIn";
-import Onboarding from "./screens/Onboarding";
-import Explore from "./screens/Explore";
 import Conversation from "./screens/Conversation";
-import Summary from "./screens/Summary";
-import Review from "./screens/Review";
+import Explore from "./screens/Explore";
 import Flashcards from "./screens/Flashcards";
-import Progress from "./screens/Progress";
+import Onboarding from "./screens/Onboarding";
 import Profile from "./screens/Profile";
+import Progress from "./screens/Progress";
+import Review from "./screens/Review";
+import SignIn from "./screens/SignIn";
+import Summary from "./screens/Summary";
+import Welcome from "./screens/Welcome";
 
 import History from "./screens/History";
 
 function AnimatedRoutes() {
   const location = useLocation();
-  
+
   return (
     <AnimatePresence mode="wait">
       {/* @ts-ignore: React Router type definition for Routes is missing standard React key prop */}
@@ -26,7 +27,7 @@ function AnimatedRoutes() {
         <Route path="/" element={<Welcome />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/onboarding" element={<Onboarding />} />
-        
+
         {/* Protected / Main App Routes */}
         <Route element={<MobileLayout />}>
           <Route path="/explore" element={<Explore />} />
@@ -45,8 +46,11 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AnimatedRoutes />
-    </BrowserRouter>
+    <>
+      <ToastContainer />
+      <BrowserRouter>
+        <AnimatedRoutes />
+      </BrowserRouter>
+    </>
   );
 }
