@@ -331,6 +331,8 @@ export default function Conversation() {
           id: Date.now().toString(),
           date: new Date().toISOString(),
           mode: practiceMode,
+          scenarioTitle: selectedScenario?.title || "Free Conversation",
+          scenarioTopic: selectedScenario?.topic || "General",
           messages: history.map((item) => ({
             role: item.role,
             text: item.parts[0].text,
@@ -351,7 +353,7 @@ export default function Conversation() {
 
   if (!selectedScenario) {
     return (
-      <PageTransition className="bg-surface text-on-surface font-body min-h-screen flex flex-col items-center justify-center p-6 text-center z-50">
+      <PageTransition className="bg-surface text-on-surface font-body flex-1 flex flex-col items-center justify-center p-6 text-center z-50 min-h-[calc(100dvh-4rem)] md:min-h-0">
         <h2 className="text-3xl font-headline font-bold mb-4">
           Choose a Topic
         </h2>
@@ -359,7 +361,7 @@ export default function Conversation() {
           Select a topic to focus on for this conversation, or return to Explore
           to see all scenarios.
         </p>
-        <div className="flex flex-wrap justify-center gap-4 max-w-2xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
           {SCENARIOS.slice(0, 6).map((scenario) => (
             <button
               key={scenario.id}
@@ -369,7 +371,7 @@ export default function Conversation() {
                 setAiMessage(msg);
                 setHistory([{ role: "model", parts: [{ text: msg }] }]);
               }}
-              className="bg-surface-container-low hover:bg-surface-container-high transition-colors px-6 py-4 rounded-2xl border border-outline-variant/20 flex items-center justify-start text-left w-full sm:w-[calc(50%-8px)] ambient-shadow"
+              className="bg-surface-container-low hover:bg-surface-container-high transition-colors px-6 py-4 rounded-2xl border border-outline-variant/20 flex items-center justify-start text-left w-full ambient-shadow"
             >
               <div className="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 mr-4">
                 <span className="material-symbols-outlined">

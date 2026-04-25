@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { PageTransition } from "../components/PageTransition";
+import { useTheme } from "../contexts/ThemeContext";
 import { useToast } from "../contexts/ToastContext";
+import { cn } from "../lib/utils";
 
 export default function Profile() {
+  const { theme, toggleTheme } = useTheme();
   const [name, setName] = useState("Alex Johnson");
   const [learningGoal, setLearningGoal] = useState(
     "Conversational fluency for travel",
@@ -150,6 +153,39 @@ export default function Profile() {
               className="w-full px-4 py-3 bg-surface-container-high rounded-xl font-body text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow min-h-[80px]"
             />
           )}
+        </div>
+
+        {/* Theme Preference */}
+        <div className="mt-8 mb-2">
+          <h3 className="text-sm font-label font-bold text-outline-variant uppercase tracking-wider mb-3 px-2">
+            Appearance
+          </h3>
+          <button
+            onClick={toggleTheme}
+            className="w-full bg-surface-container-lowest rounded-2xl p-4 ambient-shadow border border-outline-variant/20 flex items-center justify-between active:scale-[0.99] transition-transform"
+          >
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-primary text-xl">
+                {theme === "dark" ? "dark_mode" : "light_mode"}
+              </span>
+              <span className="font-body text-on-surface font-medium">
+                {theme === "dark" ? "Dark Mode" : "Light Mode"}
+              </span>
+            </div>
+            <div
+              className={cn(
+                "w-12 h-7 rounded-full relative transition-colors duration-300",
+                theme === "dark" ? "bg-primary" : "bg-outline-variant",
+              )}
+            >
+              <span
+                className={cn(
+                  "absolute top-1 w-5 h-5 rounded-full bg-on-primary shadow-sm transition-transform duration-300",
+                  theme === "dark" ? "translate-x-6" : "translate-x-1",
+                )}
+              />
+            </div>
+          </button>
         </div>
 
         {/* Stats Summary */}

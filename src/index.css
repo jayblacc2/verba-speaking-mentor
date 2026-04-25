@@ -65,6 +65,76 @@
   }
 }
 
+/* Dark mode overrides — reassign Tailwind v4 @theme custom properties */
+[data-theme="dark"] {
+  /* Surface & background */
+  --color-surface: #0f172a;
+  --color-surface-variant: #334155;
+  --color-surface-dim: #1e293b;
+  --color-surface-bright: #334155;
+  --color-surface-container: #1e293b;
+  --color-surface-container-low: #172033;
+  --color-surface-container-lowest: #0f172a;
+  --color-surface-container-high: #334155;
+  --color-surface-container-highest: #475569;
+  --color-background: #0f172a;
+
+  /* On-surface text */
+  --color-on-surface: #f1f5f9;
+  --color-on-surface-variant: #94a3b8;
+  --color-on-background: #f1f5f9;
+
+  /* Primary (blue) */
+  --color-primary: #60a5fa;
+  --color-on-primary: #0f172a;
+  --color-primary-container: #1e3a8a;
+  --color-on-primary-container: #bfdbfe;
+  --color-primary-fixed: #1e3a8a;
+  --color-primary-fixed-dim: #1e40af;
+  --color-on-primary-fixed: #bfdbfe;
+  --color-on-primary-fixed-variant: #93c5fd;
+  --color-primary-dim: #93c5fd;
+  --color-surface-tint: #60a5fa;
+
+  /* Secondary (slate) */
+  --color-secondary: #94a3b8;
+  --color-on-secondary: #0f172a;
+  --color-secondary-container: #334155;
+  --color-on-secondary-container: #f1f5f9;
+  --color-secondary-fixed: #475569;
+  --color-secondary-fixed-dim: #64748b;
+  --color-on-secondary-fixed: #f1f5f9;
+  --color-on-secondary-fixed-variant: #cbd5e1;
+  --color-secondary-dim: #64748b;
+
+  /* Tertiary (green) */
+  --color-tertiary: #4ade80;
+  --color-on-tertiary: #0f172a;
+  --color-tertiary-container: #166534;
+  --color-on-tertiary-container: #dcfce7;
+  --color-tertiary-fixed: #166534;
+  --color-tertiary-fixed-dim: #15803d;
+  --color-on-tertiary-fixed: #dcfce7;
+  --color-on-tertiary-fixed-variant: #4ade80;
+  --color-tertiary-dim: #22c55e;
+
+  /* Error */
+  --color-error: #f87171;
+  --color-on-error: #0f172a;
+  --color-error-container: #7f1d1d;
+  --color-on-error-container: #fecaca;
+  --color-error-dim: #ef4444;
+
+  /* Outline */
+  --color-outline: #475569;
+  --color-outline-variant: #334155;
+
+  /* Inverse */
+  --color-inverse-surface: #f1f5f9;
+  --color-inverse-on-surface: #0f172a;
+  --color-inverse-primary: #1e3a8a;
+}
+
 .material-symbols-outlined {
   font-variation-settings:
     "FILL" 0,

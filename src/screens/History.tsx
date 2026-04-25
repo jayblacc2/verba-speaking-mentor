@@ -13,6 +13,8 @@ interface HistoryEntry {
   id: string;
   date: string;
   mode: string;
+  scenarioTitle: string;
+  scenarioTopic: string;
   messages: Message[];
 }
 

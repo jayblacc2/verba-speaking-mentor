@@ -1,9 +1,11 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { cn } from "../../lib/utils";
 import Logo from "../../components/Logo";
+import { useTheme } from "../../contexts/ThemeContext";
+import { cn } from "../../lib/utils";
 
 export function MobileLayout() {
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
   const navItems = [
     { name: "Explore", icon: "explore", path: "/explore" },
@@ -16,10 +18,10 @@ export function MobileLayout() {
     <div className="flex flex-col md:flex-row min-h-screen bg-surface">
       {/* Side Nav for Tablet/Desktop */}
       <nav className="hidden md:flex flex-col w-64 lg:w-72 border-r border-outline-variant/20 bg-surface-container-lowest p-6 sticky top-0 h-screen">
-        <div className="mb-10 pl-4">
-          <Logo />
+        <div className="mb-10 pl-2">
+          <Logo layout="horizontal" />
         </div>
-        
+
         <div className="flex flex-col gap-2 flex-grow">
           {navItems.map((item) => {
             const isActive = location.pathname.startsWith(item.path);
@@ -29,22 +31,46 @@ export function MobileLayout() {
                 to={item.path}
                 className={cn(
                   "flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300",
-                  isActive 
-                    ? "bg-primary text-on-primary font-bold shadow-md" 
-                    : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+                  isActive
+                    ? "bg-primary text-on-primary font-bold shadow-md"
+                    : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface",
                 )}
               >
-                <span 
-                  className={cn("material-symbols-outlined text-[24px]", isActive && "fill-current")}
-                  style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
+                <span
+                  className={cn(
+                    "material-symbols-outlined text-[24px]",
+                    isActive && "fill-current",
+                  )}
+                  style={{
+                    fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0",
+                  }}
                 >
                   {item.icon}
                 </span>
-                <span className="font-label text-base lg:text-lg">{item.name}</span>
+                <span className="font-label text-base lg:text-lg">
+                  {item.name}
+                </span>
               </Link>
             );
           })}
         </div>
+
+        {/* Theme Toggle (Desktop Sidebar) */}
+        <button
+          onClick={toggleTheme}
+          className="mt-auto flex items-center gap-3 px-4 py-3 rounded-2xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-300 w-full"
+          aria-label="Toggle dark mode"
+        >
+          <span
+            className="material-symbols-outlined text-[24px]"
+            style={{ fontVariationSettings: "'FILL' 0" }}
+          >
+            {theme === "dark" ? "light_mode" : "dark_mode"}
+          </span>
+          <span className="font-label text-base lg:text-lg">
+            {theme === "dark" ? "Light" : "Dark"}
+          </span>
+        </button>
       </nav>
 
       <main className="flex-1 pb-24 md:pb-0 overflow-x-hidden">
@@ -63,16 +89,40 @@ export function MobileLayout() {
               to={item.path}
               className={cn(
                 "relative flex flex-col items-center justify-center px-4 py-1.5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-95",
-                isActive ? "bg-primary text-on-primary rounded-full shadow-[0_4px_12px_rgba(44,100,133,0.3)] transform -translate-y-[2px]" : "text-on-surface-variant hover:text-primary opacity-60 hover:opacity-100"
+                isActive
+                  ? "bg-primary text-on-primary rounded-full shadow-[0_4px_12px_rgba(44,100,133,0.3)] transform -translate-y-[2px]"
+                  : "text-on-surface-variant hover:text-primary opacity-60 hover:opacity-100",
               )}
             >
-              <span 
-                className={cn("material-symbols-outlined mb-0.5 text-[18px] sm:text-[20px] transition-all duration-500", isActive && "fill-current")}
-                style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
+              <span
+                className={cn(
+                  "material-symbols-outlined mb-0.5 text-[18px] sm:text-[20px] transition-all duration-500",
+                  isActive && "fill-current",
+                )}
+                style={{
+                  fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0",
+                }}
               >
                 {item.icon}
               </span>
-              <span className={cn("font-label text-[10px] font-semibold transition-all duration-500", isActive ? "opacity-100" : "opacity-90")}>{item.name}</span>
+              <span
+                className={cn(
+                  "font-label text-[10px] font-semibold transition-all duration-500",
+                  isActive ? "opacity-100" : "opacity-90",
+                )}
+              >
+                {item.name}
+              </span>
+              {/* Active indicator dot */}
+              <span
+                className={cn(
+                  "absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 rounded-full transition-all duration-300",
+                  isActive
+                    ? "w-4 bg-on-primary opacity-90"
+                    : "w-0 bg-transparent opacity-0",
+                )}
+                aria-hidden="true"
+              />
             </Link>
           );
         })}

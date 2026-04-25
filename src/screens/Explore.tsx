@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, type SyntheticEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import Logo from "../components/Logo";
 import { PageTransition } from "../components/PageTransition";
 import { SCENARIOS } from "../data/scenarios";
 import { cn } from "../lib/utils";
@@ -24,16 +25,11 @@ export default function Explore() {
     <PageTransition className="bg-surface text-on-surface min-h-screen">
       {/* TopAppBar Mobile */}
       <header className="md:hidden fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 py-4 bg-surface/80 backdrop-blur-md shadow-[0_4px_12px_rgba(53,47,69,0.05)]">
-        <button className="text-primary hover:bg-primary/10 p-2 rounded-full transition-colors active:scale-95">
-          <span
-            className="material-symbols-outlined"
-            style={{ fontVariationSettings: "'FILL' 0" }}
-          >
-            language
-          </span>
-        </button>
-        <div className="text-2xl font-headline font-extrabold text-primary tracking-tight">
-          Verba
+        <div className="w-8 h-8">
+          <Logo iconOnly />
+        </div>
+        <div className="text-2xl font-headline font-extrabold text-primary tracking-tight lowercase">
+          verba
         </div>
         <button className="w-8 h-8 rounded-full overflow-hidden active:scale-95 transition-transform border border-outline-variant/30">
           <img
@@ -44,76 +40,8 @@ export default function Explore() {
         </button>
       </header>
 
-      {/* Web Sidebar */}
-      <nav className="hidden md:flex fixed top-0 left-0 h-screen w-64 bg-surface-container-low flex-col justify-between py-8 px-6 shadow-[12px_0_24px_-4px_rgba(53,47,69,0.05)] z-40">
-        <div>
-          <div className="text-3xl font-headline font-extrabold text-primary tracking-tight mb-12 flex items-center gap-3">
-            <span
-              className="material-symbols-outlined text-primary text-3xl"
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              language
-            </span>
-            Verba
-          </div>
-          <div className="flex flex-col gap-2">
-            <Link
-              to="/explore"
-              className="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary-container/30 text-primary font-bold transition-all duration-300"
-            >
-              <span
-                className="material-symbols-outlined"
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                explore
-              </span>
-              <span className="font-label">Explore</span>
-            </Link>
-            <Link
-              to="/conversation"
-              className="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface opacity-70 hover:bg-primary/10 transition-colors"
-            >
-              <span className="material-symbols-outlined">mic</span>
-              <span className="font-label">Practice</span>
-            </Link>
-            <Link
-              to="/review"
-              className="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface opacity-70 hover:bg-primary/10 transition-colors"
-            >
-              <span className="material-symbols-outlined">menu_book</span>
-              <span className="font-label">Review</span>
-            </Link>
-            <Link
-              to="/progress"
-              className="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface opacity-70 hover:bg-primary/10 transition-colors"
-            >
-              <span className="material-symbols-outlined">query_stats</span>
-              <span className="font-label">Progress</span>
-            </Link>
-          </div>
-        </div>
-        <button className="flex items-center gap-3 w-full p-2 rounded-xl hover:bg-primary/10 transition-colors text-left border border-transparent hover:border-outline-variant/30">
-          <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuByVj2i_i9Xb9pNAYtj0RlAahDaL96Q2_fwWY947LeXD08IjyZ_NkNgxjovwCbCQ3vWMC4AeK2n8qNai6nXwvyMBziLLX6b2FrTtdvUfmss2RzBmDGZuMKeFFnx5gtw4BK9BT9gejXiEk8vzwSZGbVKATB6PnSmzZeD8nJPqVRIgM0UG5nMEG27Dnccl0Eb0gZIGnRHfkzDhlRvm4JODOZrCvz2YborJp49BoV2YtXK6i-rb9DPdbjuh9dhAVH7Y3KJir7uvc8ZWo4"
-            alt="User Avatar"
-            className="w-10 h-10 rounded-full object-cover"
-          />
-          <div className="flex-1 overflow-hidden">
-            <p className="font-label font-bold text-sm truncate text-on-surface">
-              Alex Johnson
-            </p>
-            <p className="font-label text-xs opacity-70 truncate text-on-surface">
-              Intermediate
-            </p>
-          </div>
-          <span className="material-symbols-outlined text-on-surface opacity-70">
-            settings
-          </span>
-        </button>
-      </nav>
-
       {/* Main Content */}
-      <div className="md:ml-64 px-4 sm:px-6 md:px-12 py-8 pt-24 md:pt-8 max-w-7xl mx-auto h-full pb-20 md:pb-8">
+      <div className="px-4 sm:px-6 md:px-12 py-8 pt-24 md:pt-8 h-full pb-20 md:pb-8">
         <div className="mb-12">
           <h1 className="text-3xl md:text-[3.5rem] leading-tight font-headline font-extrabold text-on-surface mb-2 tracking-tight pl-2">
             Discover
@@ -218,18 +146,26 @@ export default function Explore() {
                         >
                           <div
                             className={cn(
-                              "relative overflow-hidden",
+                              "relative overflow-hidden bg-surface-container flex items-center justify-center",
                               isFeatured
                                 ? "w-full md:w-2/5 h-48 md:h-full"
                                 : "h-40 w-full",
                             )}
                           >
+                            <span className="material-symbols-outlined text-4xl text-outline-variant absolute z-0">
+                              {scenario.icon}
+                            </span>
                             <img
                               src={scenario.image}
                               alt={scenario.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 relative z-10"
+                              onError={(
+                                e: SyntheticEvent<HTMLImageElement>,
+                              ) => {
+                                e.currentTarget.style.display = "none";
+                              }}
                             />
-                            <div className="absolute top-4 left-4 px-3 py-1 bg-surface/80 backdrop-blur-md rounded-full text-primary font-label text-xs font-bold flex items-center gap-1">
+                            <div className="absolute top-4 left-4 px-3 py-1 bg-surface/80 backdrop-blur-md rounded-full text-primary font-label text-xs font-bold flex items-center gap-1 z-20">
                               <span className="material-symbols-outlined text-[16px]">
                                 {scenario.icon}
                               </span>{" "}
